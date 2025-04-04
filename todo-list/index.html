@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo List</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+                'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+                sans-serif;
+        }
+
+        .todo-container {
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 2rem;
+        }
+
+        .todo-form {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .todo-input {
+            flex: 1;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .add-button {
+            padding: 0.8rem 1.5rem;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+        }
+
+        .add-button:hover {
+            background-color: #45a049;
+        }
+
+        .todo-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .todo-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            background-color: #f9f9f9;
+            border-radius: 4px;
+            gap: 1rem;
+        }
+
+        .todo-checkbox {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .todo-text {
+            flex: 1;
+            font-size: 1rem;
+        }
+
+        .completed .todo-text {
+            text-decoration: line-through;
+            color: #888;
+        }
+
+        .delete-button {
+            padding: 0.5rem 1rem;
+            background-color: #ff4444;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background-color 0.3s;
+        }
+
+        .delete-button:hover {
+            background-color: #cc0000;
+        }
+    </style>
+</head>
+<body>
+    <div class="todo-container">
+        <h1>Todo List</h1>
+        <form class="todo-form" id="todoForm">
+            <input 
+                type="text" 
+                class="todo-input" 
+                id="todoInput" 
+                placeholder="Add a new task..."
+                required
+            >
+            <button type="submit" class="add-button">Add Task</button>
+        </form>
+        <div class="todo-list" id="todoList">
+            <!-- Todo items will be added here dynamically -->
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const todoForm = document.getElementById('todoForm');
+            const todoInput = document.getElementById('todoInput');
+            const todoList = document.getElementById('todoList');
+            let tasks = [];
+
+            // Add new task
+            todoForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const text = todoInput.value.trim();
+                
+                if (text !== '') {
+                    const newTask = {
+                        id: Date.now(),
+                        text: text,
+                        completed: false
+                    };
+                    tasks.push(newTask);
+                    renderTask(newTask);
+                    todoInput.value = '';
+                }
+            });
+
+            // Render a single task
+            function renderTask(task) {
+                const taskElement = document.createElement('div');
+                taskElement.className = `todo-item ${task.completed ? 'completed' : ''}`;
+                taskElement.dataset.id = task.id;
+
+                taskElement.innerHTML = `
+                    <input
+                        type="checkbox"
+                        class="todo-checkbox"
+                        ${task.completed ? 'checked' : ''}
+                    >
+                    <span class="todo-text">${task.text}</span>
+                    <button class="delete-button">Delete</button>
+                `;
+
+                // Add event listeners
+                const checkbox = taskElement.querySelector('.todo-checkbox');
+                checkbox.addEventListener('change', () => toggleComplete(task.id));
+
+                const deleteButton = taskElement.querySelector('.delete-button');
+                deleteButton.addEventListener('click', () => deleteTask(task.id));
+
+                todoList.appendChild(taskElement);
+            }
+
+            // Toggle complete status
+            function toggleComplete(id) {
+                const taskIndex = tasks.findIndex(task => task.id === id);
+                if (taskIndex !== -1) {
+                    tasks[taskIndex].completed = !tasks[taskIndex].completed;
+                    const taskElement = document.querySelector(`[data-id="${id}"]`);
+                    taskElement.classList.toggle('completed');
+                }
+            }
+
+            // Delete task
+            function deleteTask(id) {
+                tasks = tasks.filter(task => task.id !== id);
+                const taskElement = document.querySelector(`[data-id="${id}"]`);
+                taskElement.remove();
+            }
+        });
+    </script>
+</body>
+</html> 
