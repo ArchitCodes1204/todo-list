@@ -1,14 +1,16 @@
-# College Q&A Platform
+# React Todo List Application
 
-A modern React-based Q&A platform designed for college students to ask and answer academic and campus-related questions.
+A modern and interactive Todo List application built with React.js. This application allows users to manage their tasks with features like adding, completing, and deleting tasks, as well as filtering tasks by their status.
 
 ## Features
 
-- 📝 Ask and answer questions
-- 🏷️ Tag-based categorization
-- 👍 Upvote questions and answers
-- 🔍 Filter questions (All, Answered, Unanswered)
-- 📅 Question metadata tracking
+- 📝 Add new tasks
+- ✅ Mark tasks as complete/incomplete
+- 🗑️ Delete tasks
+- 🔍 Filter tasks (All, Active, Completed)
+- 📅 Task creation date display
+- 🧹 Clear completed tasks
+- 📊 Task count display
 - 💾 Local storage persistence
 - 🎨 Modern and responsive design
 
@@ -31,8 +33,8 @@ A modern React-based Q&A platform designed for college students to ask and answe
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/college-qa-platform.git
-cd college-qa-platform
+git clone https://github.com/yourusername/todo-list.git
+cd todo-list
 ```
 
 2. Install dependencies:
@@ -50,12 +52,12 @@ npm start
 ## Project Structure
 
 ```
-college-qa-platform/
+todo-list/
 ├── public/
 ├── src/
 │   ├── components/
-│   │   ├── QnAPlatform.jsx
-│   │   └── QnAPlatform.css
+│   │   ├── Todo.jsx
+│   │   └── Todo.css
 │   ├── App.js
 │   ├── App.css
 │   └── index.js
